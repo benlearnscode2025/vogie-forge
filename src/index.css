@@ -1,0 +1,187 @@
+:root {
+  /* Ancient Hearth and Forge Color Tokens */
+  --bg-dark: #0a0908;          /* Weathered soot black */
+  --bg-slate: #151311;         /* Quenched carbon steel */
+  --bg-hearth: #1d1a17;        /* Blacksmith charcoal */
+  --bg-parchment: #f4edd8;     /* Aged scroll paper */
+  --bg-parchment-dark: #e6dcbe; /* Tarnished script roll */
+  
+  /* Metal & Fire Borders */
+  --border-iron: rgba(120, 110, 100, 0.25);
+  --border-bronze: rgba(205, 127, 50, 0.3);
+  --border-gold: rgba(212, 175, 55, 0.4);
+  --gold-solid: #c5a059;       /* Burnished gold leaf */
+  --gold-glow: #e5b96a;
+  --iron-solid: #635f58;       /* Cold iron */
+  --molten-core: #db5a19;      /* Crucible orange */
+  
+  /* Antiquity Typography Colors */
+  --text-bone: #f5f2eb;        /* Bleached vellum */
+  --text-tarnish: #cfc9b8;     /* Aged silver/brass */
+  --text-ash: #8c8576;         /* Hearth ash gray */
+  
+  /* Ink Colors for Parchment scrolls */
+  --ink-dark: #241d13;         /* Gall-nut iron ink */
+  --ink-muted: #5e513a;        /* Faded sepia */
+  --ink-red: #8f2317;          /* Rubricator vermillion */
+  
+  /* Shadow & Aura glows */
+  --glow-ember: 0 0 25px rgba(219, 90, 25, 0.25);
+  --glow-gold: 0 0 15px rgba(197, 160, 89, 0.2);
+  
+  /* Fonts */
+  --font-heading: 'Pirata One', 'Uncial Antiqua', Georgia, serif;
+  --font-serif: 'Cardo', Georgia, serif;
+  --font-accent: 'Almendra', Georgia, serif;
+  --font-blackletter: 'UnifrakturMaguntia', Georgia, serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold-solid) var(--bg-dark);
+}
+
+/* Medieval Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+  border-left: 1px solid var(--border-iron);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gold-solid);
+  border: 2px solid var(--bg-dark);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--glow-gold);
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-bone);
+  font-family: var(--font-serif);
+  font-size: 17px;
+  line-height: 1.7;
+  overflow-x: hidden;
+  min-height: 100dvh;
+  position: relative;
+  letter-spacing: 0.01em;
+}
+
+/* Ash & Hearth Texture Overlay */
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(rgba(219, 90, 25, 0.012) 1px, transparent 0),
+    radial-gradient(rgba(197, 160, 89, 0.01) 1.5px, transparent 0);
+  background-size: 40px 40px, 60px 60px;
+  background-position: 0 0, 20px 20px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Atmospheric Forge Glows */
+body::after {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(circle at 50% 0%, rgba(219, 90, 25, 0.04) 0%, transparent 50%),
+              radial-gradient(circle at 10% 90%, rgba(197, 160, 89, 0.02) 0%, transparent 40%),
+              radial-gradient(circle at 95% 60%, rgba(219, 90, 25, 0.03) 0%, transparent 45%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+/* Drop Caps for Scribes */
+.drop-cap::first-letter {
+  font-family: var(--font-blackletter);
+  float: left;
+  font-size: 3.4em;
+  line-height: 0.8;
+  padding-top: 4px;
+  padding-right: 8px;
+  padding-left: 3px;
+  color: var(--gold-solid);
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.8);
+}
+
+.drop-cap-parchment::first-letter {
+  font-family: var(--font-blackletter);
+  float: left;
+  font-size: 3.4em;
+  line-height: 0.8;
+  padding-top: 4px;
+  padding-right: 8px;
+  padding-left: 3px;
+  color: var(--ink-red);
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
+}
+
+/* Hearth Ember Particle System (Slow, Heavy Motion) */
+.ember-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.ember-particle {
+  position: absolute;
+  bottom: -20px;
+  width: 4px;
+  height: 4px;
+  background-color: var(--molten-core);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--molten-core), 0 0 20px var(--molten-core);
+  opacity: 0;
+  animation: float-embers-slow 24s infinite linear;
+}
+
+@keyframes float-embers-slow {
+  0% { transform: translateY(0) translateX(0) scale(0.6); opacity: 0; }
+  5% { opacity: 0.7; }
+  85% { opacity: 0.6; }
+  100% { transform: translateY(-500px) translateX(60px) scale(0.3); opacity: 0; }
+}
+
+/* Ornamental Double Borders */
+.border-double-line {
+  position: relative;
+  border: 4px double var(--gold-solid);
+}
+
+.border-double-line::before {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  right: 1px;
+  bottom: 1px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
