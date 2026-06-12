@@ -1,4 +1,14 @@
 :root {
+  /* Design system variables for the new redesign layout */
+  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+  --paper-0: #ece7db;
+  --paper-1: #dfd9ce;
+  --surface-card: #ece7db;
+  --ink-1: #1b1916;
+  --ink-2: #56524a;
+  --ink-3: #8b8478;
+
   /* Ancient Hearth and Forge Color Tokens */
   --bg-dark: #0a0908;          /* Weathered soot black */
   --bg-slate: #151311;         /* Quenched carbon steel */

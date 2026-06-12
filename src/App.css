@@ -1,3 +1,77 @@
+/* Vogie App - Redesign Styles */
+.nav-link-item {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 10px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+  transition: all 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-link-item:hover {
+  color: #ece7db !important;
+  background: rgba(236,231,219,0.06);
+}
+.nav-container {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  flex: 1;
+  justify-content: flex-start;
+  align-items: center;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.nav-container::-webkit-scrollbar {
+  display: none;
+}
+@media (min-width: 768px) {
+  .nav-container {
+    justify-content: flex-end;
+  }
+}
+.footer-link-item {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: #a8a294;
+  text-decoration: none;
+  transition: color 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.footer-link-item:hover {
+  color: #ece7db !important;
+}
+.btn-gold {
+  transition: background 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-gold:hover {
+  background: #d89c57 !important;
+}
+.btn-dark-hover {
+  transition: background 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-dark-hover:hover {
+  background: #2b2926 !important;
+}
+.tier-card-redesign {
+  transition: border-color 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.tier-card-redesign:hover {
+  border-color: rgba(236, 231, 219, 0.28) !important;
+}
+.drops-card-redesign {
+  transition: border-color 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.drops-card-redesign:hover {
+  border-color: rgba(236, 231, 219, 0.3) !important;
+}
+.halo-card-redesign {
+  transition: box-shadow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.halo-card-redesign:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+}
+
 /* Vogie App - Ancient Redesign */
 .vogie-app {
   display: flex;
