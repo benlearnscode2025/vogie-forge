@@ -16,7 +16,7 @@ import {
   X
 } from 'lucide-react';
 import './App.css';
-const heroBg = 'https://static.wixstatic.com/media/cd5cc7_89e156a4623340d59bd3b7263dcb518c~mv2.jpg/v1/fill/w_1920,h_1080,al_c,q_90/file.jpg';
+const heroBg = '/hero-forge.png';
 
 // Interfaces
 interface SwordItem {
