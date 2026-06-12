@@ -30,10 +30,10 @@
   --glow-gold: 0 0 15px rgba(197, 160, 89, 0.2);
   
   /* Fonts */
-  --font-heading: 'Pirata One', 'Uncial Antiqua', Georgia, serif;
+  --font-heading: 'Cinzel', Georgia, serif;
   --font-serif: 'Cardo', Georgia, serif;
-  --font-accent: 'Almendra', Georgia, serif;
-  --font-blackletter: 'UnifrakturMaguntia', Georgia, serif;
+  --font-accent: 'Outfit', sans-serif;
+  --font-blackletter: 'Cinzel', Georgia, serif;
 }
 
 * {

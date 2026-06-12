@@ -111,46 +111,49 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle, transparent 20%, rgba(10, 9, 8, 0.95) 85%);
+  background: linear-gradient(180deg, rgba(10, 9, 8, 0.4) 0%, rgba(10, 9, 8, 0.9) 100%),
+              radial-gradient(circle at 30% 50%, transparent 20%, rgba(10, 9, 8, 0.8) 80%);
   z-index: 0;
 }
 
 .hero-content {
   position: relative;
   z-index: 2;
-  max-width: 900px;
+  max-width: 850px;
   padding: 0 40px;
 }
 
 .hero-tagline {
   font-family: var(--font-accent);
-  font-weight: normal;
-  font-size: 16px;
-  letter-spacing: 6px;
-  color: var(--gold-solid);
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.3em;
+  color: var(--gold-glow);
   text-transform: uppercase;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   display: block;
 }
 
 .hero-title {
   font-family: var(--font-heading);
-  font-size: 52px;
-  font-weight: normal;
-  letter-spacing: 2px;
-  line-height: 1.25;
-  margin-bottom: 28px;
+  font-size: 56px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  margin-bottom: 24px;
   color: var(--text-bone);
-  text-shadow: 2px 4px 15px rgba(0, 0, 0, 0.9);
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
 }
 
 .hero-desc {
   font-family: var(--font-serif);
-  font-size: 19px;
-  color: var(--text-tarnish);
-  max-width: 700px;
+  font-size: 20px;
+  color: var(--text-bone);
+  opacity: 0.9;
+  max-width: 750px;
   margin: 0 auto 36px;
-  line-height: 1.8;
+  line-height: 1.85;
+  letter-spacing: 0.01em;
 }
 
 .hero-actions {
@@ -1272,6 +1275,7 @@ textarea.custom-input {
 .collection-card {
   position: relative;
   height: 340px;
+  background-color: var(--bg-slate);
   border: 1px solid var(--border-iron);
   border-top: 3px solid var(--gold-solid);
   overflow: hidden;
@@ -1288,7 +1292,7 @@ textarea.custom-input {
   height: 100%;
   background-size: cover;
   background-position: center;
-  filter: brightness(0.4) contrast(1.1) grayscale(0.2);
+  filter: brightness(0.35) contrast(1.1) grayscale(0.25);
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
 }
 
@@ -1298,7 +1302,7 @@ textarea.custom-input {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to top, rgba(10, 9, 8, 0.95) 0%, rgba(10, 9, 8, 0.4) 60%, transparent 100%);
+  background: linear-gradient(to top, rgba(10, 9, 8, 0.98) 0%, rgba(10, 9, 8, 0.6) 60%, rgba(10, 9, 8, 0.1) 100%);
   z-index: 1;
 }
 
@@ -1316,17 +1320,19 @@ textarea.custom-input {
 
 .collection-title {
   font-family: var(--font-heading);
-  font-size: 20px;
+  font-size: 22px;
+  font-weight: 600;
   color: var(--text-bone);
-  letter-spacing: 2px;
+  letter-spacing: 0.12em;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
 }
 
 .collection-subtitle {
   font-family: var(--font-accent);
   font-size: 13px;
+  font-weight: 500;
   color: var(--gold-solid);
-  letter-spacing: 1px;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
@@ -1337,8 +1343,8 @@ textarea.custom-input {
 }
 
 .collection-card:hover .collection-card-bg {
-  filter: brightness(0.65) contrast(1.05) grayscale(0);
-  transform: scale(1.05);
+  filter: brightness(0.55) contrast(1.05) grayscale(0);
+  transform: scale(1.04);
 }
 
 /* 2. Redesigned Blacksmith Tenets */
@@ -1350,6 +1356,8 @@ textarea.custom-input {
 
 .tenet-card {
   padding: 40px;
+  background-color: var(--bg-slate);
+  border: 1px solid var(--border-iron);
   border-top: 3px solid var(--gold-solid);
   display: flex;
   flex-direction: column;
@@ -1359,26 +1367,29 @@ textarea.custom-input {
 }
 
 .tenet-number {
-  font-family: var(--font-blackletter);
-  font-size: 42px;
-  color: rgba(197, 160, 89, 0.15);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 48px;
+  color: rgba(197, 160, 89, 0.08);
   position: absolute;
-  top: 16px;
-  right: 24px;
+  top: 12px;
+  right: 20px;
   line-height: 1;
 }
 
 .tenet-card-title {
   font-family: var(--font-heading);
-  font-size: 22px;
+  font-size: 24px;
+  font-weight: 600;
   color: var(--text-bone);
-  letter-spacing: 1px;
+  letter-spacing: 0.05em;
 }
 
 .tenet-card-desc {
-  font-size: 15.5px;
-  color: var(--text-tarnish);
-  line-height: 1.65;
+  font-size: 16px;
+  color: var(--text-bone);
+  opacity: 0.85;
+  line-height: 1.7;
 }
 
 /* 3. Customizer Bento Card Teaser */
