@@ -18,6 +18,7 @@
   gap: 4px;
   overflow-x: auto;
   flex: 1;
+  min-width: 0;
   justify-content: flex-start;
   align-items: center;
   scrollbar-width: none;
