@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import scabbard1 from './assets/2B8A3232.jpg';
-import scabbard2 from './assets/2B8A3233.jpg';
-import scabbard3 from './assets/2B8A3234.jpg';
-import scabbard4 from './assets/2B8A3235.jpg';
+import scabbard1 from './assets/scabbard_1.jpg';
+import scabbard2 from './assets/scabbard_2.jpg';
+import scabbard3 from './assets/scabbard_3.jpg';
+import scabbard4 from './assets/scabbard_4.jpg';
+
 
 // ---------------------------------------------------------
 // DATA MODELS & INTERFACES
