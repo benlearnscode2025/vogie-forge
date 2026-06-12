@@ -11,7 +11,6 @@ import {
   ChevronRight,
   Send,
   Play,
-  BookOpen,
   Menu,
   X
 } from 'lucide-react';
@@ -463,47 +462,191 @@ function App() {
         {/* Home View */}
         {activeTab === 'home' && (
           <div className="home-layout-container">
-            {/* Authenticity story */}
-            <div className="story-grid">
-              <div className="iron-panel story-panel-iron">
-                <span style={{ color: 'var(--gold-solid)', fontStyle: 'italic', fontSize: '15px' }}>The Blacksmithing Tenets</span>
-                <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '28px', color: 'var(--text-bone)' }}>Blades Drawn, Quenched & Tempered by Hand</h2>
-                <p className="drop-cap" style={{ color: 'var(--text-tarnish)', fontSize: '17px', lineHeight: '1.8' }}>
-                  Our workshop shuns the shortcuts of flat stock removal. Every blade starts as a thick carbon steel billet, drawn out at white heat under the hammer to establish a perfect distal taper.
+            {/* Visual Collections Grid */}
+            <div className="homepage-section">
+              <div className="section-title-group">
+                <span className="section-tag">Forge Collections</span>
+                <h2 className="section-title">CHOOSE YOUR BLADE PATTERN</h2>
+                <div className="section-divider"></div>
+              </div>
+              <div className="collections-showcase">
+                <div 
+                  className="collection-card" 
+                  onClick={() => { setCatalogFilter('claymore'); setActiveTab('catalog'); window.scrollTo(0,0); }}
+                >
+                  <div className="collection-card-bg" style={{ backgroundImage: `url(https://static.wixstatic.com/media/cd5cc7_d17e6d868e244b88ae9ce97bee4f56d3~mv2.jpg/v1/fill/w_450,h_330,al_c,q_85/file.jpg)` }}></div>
+                  <div className="collection-card-overlay"></div>
+                  <div className="collection-card-content">
+                    <span className="collection-title">HIGHLAND CLAYMORES</span>
+                    <span className="collection-subtitle">Two-Handed Greatswords</span>
+                  </div>
+                </div>
+
+                <div 
+                  className="collection-card" 
+                  onClick={() => { setCatalogFilter('broadsword'); setActiveTab('catalog'); window.scrollTo(0,0); }}
+                >
+                  <div className="collection-card-bg" style={{ backgroundImage: `url(https://static.wixstatic.com/media/cd5cc7_a06d45bbf61f40f3a2ba49000ab99674~mv2.jpg/v1/fill/w_450,h_330,al_c,q_85/file.jpg)` }}></div>
+                  <div className="collection-card-overlay"></div>
+                  <div className="collection-card-content">
+                    <span className="collection-title">BASKET HILT BROADSWORDS</span>
+                    <span className="collection-subtitle">Traditional Single-Handed Blades</span>
+                  </div>
+                </div>
+
+                <div 
+                  className="collection-card" 
+                  onClick={() => { setCatalogFilter('dirk'); setActiveTab('catalog'); window.scrollTo(0,0); }}
+                >
+                  <div className="collection-card-bg" style={{ backgroundImage: `url(https://static.wixstatic.com/media/cd5cc7_cd11fc4d7bc64048afa7010bd81a2bef~mv2.jpg/v1/fill/w_450,h_330,al_c,q_85/file.jpg)` }}></div>
+                  <div className="collection-card-overlay"></div>
+                  <div className="collection-card-content">
+                    <span className="collection-title">HIGHLAND DIRKS</span>
+                    <span className="collection-subtitle">Ancestral Sidearm Daggers</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <CelticDivider />
+
+            {/* Redesigned Blacksmith Tenets */}
+            <div className="homepage-section">
+              <div className="section-title-group">
+                <span className="section-tag">Anvil Methods</span>
+                <h2 className="section-title">THE TENETS OF HISTORICAL FORGING</h2>
+                <div className="section-divider"></div>
+              </div>
+              <div className="tenet-cards-grid">
+                <div className="iron-panel tenet-card">
+                  <div className="tenet-number">I</div>
+                  <h3 className="tenet-card-title">Hand-Drawn Distal Taper</h3>
+                  <p className="tenet-card-desc">
+                    Drawing out steel bars at white heat establishes a perfect thickness profile: thick near the guard for rigidity, tapering to a swift, maneuverable tip.
+                  </p>
+                </div>
+
+                <div className="iron-panel tenet-card">
+                  <div className="tenet-number">II</div>
+                  <h3 className="tenet-card-title">Oil-Quenched Spring Steel</h3>
+                  <p className="tenet-card-desc">
+                    We forge with premium spring steels (En45, 1095) subjected to double tempering cycles to achieve a resilience of 58 HRC, ensuring a blade that flexes and never breaks.
+                  </p>
+                </div>
+
+                <div className="iron-panel tenet-card">
+                  <div className="tenet-number">III</div>
+                  <h3 className="tenet-card-title">Museum Heritage Materials</h3>
+                  <p className="tenet-card-desc">
+                    Hilts, guards, and scabbards are hand-filed from solid steel or bronze and fitted with select Scottish Walnut, bog oak, and hand-stitched velvet linings.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <CelticDivider />
+
+            {/* Customizer Bento Teaser */}
+            <div className="customizer-teaser-banner iron-panel">
+              <div className="teaser-content">
+                <span className="teaser-tag">Workbench Customizer</span>
+                <h3 className="teaser-title">COMMISSION A BLADE FORGED TO YOUR GENEALOGY</h3>
+                <p className="teaser-desc">
+                  Select your weapon pattern, steel composition, hilt fittings, and hardwood grip. Record family emblems and ancestral engraving details directly on our anvil workbench ledger, calculating real-time pricing and slot specifications.
                 </p>
-                <p style={{ color: 'var(--text-tarnish)', fontSize: '17.5px' }}>
-                  We forge steel thick at the guard to ensure rigidity, tapering to a swift, maneuverable tip. This method ensures structural strength and balance that factory blades cannot duplicate.
+                <button className="custom-button" onClick={() => { setActiveTab('customizer'); window.scrollTo(0,0); }}>
+                  <Hammer size={16} /> Enter Forge Builder
+                </button>
+              </div>
+              <div className="teaser-visual">
+                <div className="blueprint-box">
+                  <div className="blueprint-grid-lines"></div>
+                  <svg width="100%" height="220" viewBox="0 0 100 200" fill="none" className="blueprint-svg">
+                    <path d="M50,160 L45,20 L50,10 L55,20 L50,160 Z" fill="none" stroke="rgba(212, 175, 55, 0.4)" strokeWidth="1.5" strokeDasharray="3 3" />
+                    <path d="M15,160 L85,160 L80,165 L20,165 Z" fill="none" stroke="rgba(212, 175, 55, 0.6)" strokeWidth="1.5" />
+                    <rect x="44" y="165" width="12" height="28" rx="1" fill="none" stroke="rgba(212, 175, 55, 0.5)" strokeWidth="1.5" />
+                    <circle cx="50" cy="196" r="6" fill="none" stroke="rgba(212, 175, 55, 0.6)" strokeWidth="1.5" />
+                  </svg>
+                  <span className="blueprint-overlay">VF-SCHEMATIC // SCALE: 1:10</span>
+                </div>
+              </div>
+            </div>
+
+            <CelticDivider />
+
+            {/* Featured Items ledger */}
+            <div className="homepage-section">
+              <div className="section-title-group">
+                <span className="section-tag">Forged Relics</span>
+                <h2 className="section-title">THE LEDGER OF COMPLETED WORKS</h2>
+                <div className="section-divider"></div>
+              </div>
+              <div className="catalog-grid">
+                {CATALOG_ITEMS.slice(0, 3).map((sword) => (
+                  <div key={sword.id} className="iron-panel-interactive sword-card">
+                    <div className="card-image-wrap">
+                      <img src={sword.image} alt={sword.name} className="sword-card-img" />
+                      <span className="sold-badge">SOLD</span>
+                    </div>
+                    <div className="card-content">
+                      <span className="sword-category">{sword.category}</span>
+                      <span className="sword-name">{sword.name}</span>
+                      <div className="sword-spec-row" style={{ marginTop: '8px' }}>
+                        <span>Steel</span>
+                        <span>{sword.steel}</span>
+                      </div>
+                      <div className="sword-spec-row">
+                        <span>Weight</span>
+                        <span>{sword.weight}</span>
+                      </div>
+                      <div style={{ marginTop: 'auto', paddingTop: '16px' }}>
+                        <button className="custom-button" style={{ width: '100%' }} onClick={() => {
+                          setFormData(prev => ({ 
+                            ...prev, 
+                            customSpecs: `Enquiry about: ${sword.name} (${sword.id})` 
+                          }));
+                          setActiveTab('contact');
+                          window.scrollTo(0,0);
+                        }}>
+                          Enquire About Replica
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '32px' }}>
+                <button className="custom-button-secondary" onClick={() => { setActiveTab('catalog'); window.scrollTo(0,0); }}>
+                  View Full Forge Ledger <ChevronRight size={14} />
+                </button>
+              </div>
+            </div>
+
+            <CelticDivider />
+
+            {/* Coronation Tapestry Banner */}
+            <div className="coronation-banner" style={{ marginTop: '0px' }}>
+              <div className="coronation-text">
+                <span className="coronation-tag">Coronation Presentation</span>
+                <h3 className="coronation-title">The Sword of State presented to King Charles III</h3>
+                <p className="coronation-desc">
+                  Dane at Vogie Forge is honored to have hand-carved the wooden scabbard and detailed the gilt lettering for the Elizabeth ceremonial Sword of State of Scotland. Stitched in our workshop with purple silken velvet sleeve details, this sword was officially presented at King Charles III's Scottish Coronation.
                 </p>
-                <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
-                  <button className="custom-button" onClick={() => setActiveTab('qa')}>
-                    <BookOpen size={16} /> Consult the Forge Manual
+                <div style={{ display: 'flex', gap: '12px' }}>
+                  <button className="custom-button" onClick={() => { setActiveTab('wip'); window.scrollTo(0,0); }}>
+                    <Play size={16} /> View Coronation Forge Logs
                   </button>
                 </div>
               </div>
-              
-              <div className="parchment-scroll story-panel-parchment">
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '22px', color: 'var(--ink-red)' }}>The Ancestral Oath</h3>
-                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                  <li style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                    <span style={{ color: 'var(--ink-red)', fontSize: '18px', fontWeight: 'bold' }}>I.</span>
-                    <span style={{ fontSize: '16px', color: 'var(--ink-dark)' }}>No cheap alloys or zinc castings. Only authentic high carbon spring steels (En45, 1095) hardened in oil.</span>
-                  </li>
-                  <li style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                    <span style={{ color: 'var(--ink-red)', fontSize: '18px', fontWeight: 'bold' }}>II.</span>
-                    <span style={{ fontSize: '16px', color: 'var(--ink-dark)' }}>Handles and scabbards carved exclusively from Scottish oak, walnut, or ebony, to replicate museum metrics.</span>
-                  </li>
-                  <li style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                    <span style={{ color: 'var(--ink-red)', fontSize: '18px', fontWeight: 'bold' }}>III.</span>
-                    <span style={{ fontSize: '16px', color: 'var(--ink-dark)' }}>Blades subjected to multiple tempering cycles to ensure structural integrity and flexibility.</span>
-                  </li>
-                </ul>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Award size={96} style={{ color: 'var(--gold-solid)', filter: 'drop-shadow(0 0 10px rgba(197, 160, 89, 0.2))' }} />
               </div>
             </div>
 
             <CelticDivider />
 
             {/* Testimonials Scroll */}
-            <div className="testimonials-section parchment-scroll">
+            <div className="testimonials-section parchment-scroll" style={{ margin: '0 auto', width: '100%' }}>
               <div className="testimonial-container">
                 <span className="section-tag" style={{ color: 'var(--ink-red)' }}>Recorded Chronicles</span>
                 <p className="testimonial-quote drop-cap-parchment">
@@ -533,34 +676,25 @@ function App() {
 
             <CelticDivider />
 
-            {/* Featured Items ledger */}
-            <div>
-              <div className="section-title-group">
-                <span className="section-tag">Forged Relics</span>
-                <h2 className="section-title">THE LEDGER OF COMPLETED WORKS</h2>
-                <div className="section-divider"></div>
+            {/* Bible Oath Callout */}
+            <div className="bible-oath-banner iron-panel">
+              <div className="bible-oath-text">
+                <h3 className="bible-oath-title">THE SWORD OF THE SPIRIT OATH</h3>
+                <p className="bible-oath-desc">
+                  At Vogie Forge, our swords are forged in honesty and steel. We believe the written Word of God is the true 'Sword of the Spirit'. In support of this belief, we offer free copies of the King James Bible to anyone upon request.
+                </p>
               </div>
-              <div className="catalog-grid">
-                {CATALOG_ITEMS.slice(0, 3).map((sword) => (
-                  <div key={sword.id} className="iron-panel-interactive sword-card">
-                    <div className="card-image-wrap">
-                      <img src={sword.image} alt={sword.name} className="sword-card-img" />
-                      <span className="sold-badge">SOLD</span>
-                    </div>
-                    <div className="card-content">
-                      <span className="sword-category">{sword.category}</span>
-                      <span className="sword-name">{sword.name}</span>
-                      <div className="sword-spec-row" style={{ marginTop: '8px' }}>
-                        <span>Steel</span>
-                        <span>{sword.steel}</span>
-                      </div>
-                      <div className="sword-spec-row">
-                        <span>Weight</span>
-                        <span>{sword.weight}</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+              <div className="bible-oath-actions">
+                <button className="custom-button" onClick={() => { setActiveTab('godsword'); window.scrollTo(0,0); }}>
+                  Read Our Scripture Oath
+                </button>
+                <button className="custom-button-secondary" onClick={() => {
+                  setFormData(prev => ({ ...prev, message: 'I would like to request a free copy of the King James Bible, as offered on your website.' }));
+                  setActiveTab('contact');
+                  window.scrollTo(0,0);
+                }}>
+                  Request Free Bible
+                </button>
               </div>
             </div>
           </div>
