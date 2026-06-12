@@ -474,7 +474,7 @@ function App() {
                   className="collection-card" 
                   onClick={() => { setCatalogFilter('claymore'); setActiveTab('catalog'); window.scrollTo(0,0); }}
                 >
-                  <div className="collection-card-bg" style={{ backgroundImage: `url(https://static.wixstatic.com/media/cd5cc7_d17e6d868e244b88ae9ce97bee4f56d3~mv2.jpg/v1/fill/w_450,h_330,al_c,q_85/file.jpg)` }}></div>
+                  <div className="collection-card-bg" style={{ backgroundImage: `url(/category-claymore.png)` }}></div>
                   <div className="collection-card-overlay"></div>
                   <div className="collection-card-content">
                     <span className="collection-title">HIGHLAND CLAYMORES</span>
@@ -486,7 +486,7 @@ function App() {
                   className="collection-card" 
                   onClick={() => { setCatalogFilter('broadsword'); setActiveTab('catalog'); window.scrollTo(0,0); }}
                 >
-                  <div className="collection-card-bg" style={{ backgroundImage: `url(https://static.wixstatic.com/media/cd5cc7_a06d45bbf61f40f3a2ba49000ab99674~mv2.jpg/v1/fill/w_450,h_330,al_c,q_85/file.jpg)` }}></div>
+                  <div className="collection-card-bg" style={{ backgroundImage: `url(/category-broadsword.png)` }}></div>
                   <div className="collection-card-overlay"></div>
                   <div className="collection-card-content">
                     <span className="collection-title">BASKET HILT BROADSWORDS</span>
@@ -498,7 +498,7 @@ function App() {
                   className="collection-card" 
                   onClick={() => { setCatalogFilter('dirk'); setActiveTab('catalog'); window.scrollTo(0,0); }}
                 >
-                  <div className="collection-card-bg" style={{ backgroundImage: `url(https://static.wixstatic.com/media/cd5cc7_cd11fc4d7bc64048afa7010bd81a2bef~mv2.jpg/v1/fill/w_450,h_330,al_c,q_85/file.jpg)` }}></div>
+                  <div className="collection-card-bg" style={{ backgroundImage: `url(/category-dirk.png)` }}></div>
                   <div className="collection-card-overlay"></div>
                   <div className="collection-card-content">
                     <span className="collection-title">HIGHLAND DIRKS</span>
@@ -1176,30 +1176,30 @@ function App() {
             </div>
 
             <div className="parchment-scroll godsword-parchment">
-              <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '24px', color: 'var(--ink-red)', marginBottom: '24px', textAlign: 'center' }}>Concerning the Possession of God's Word</h3>
+              <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '24px', color: 'var(--gold-solid)', marginBottom: '24px', textAlign: 'center' }}>Concerning the Possession of God's Word</h3>
               
-              <p className="drop-cap-parchment" style={{ fontSize: '18px', color: 'var(--ink-dark)', lineHeight: '1.8', marginBottom: '20px' }}>
+              <p className="drop-cap-parchment" style={{ fontSize: '18px', color: 'var(--text-bone)', lineHeight: '1.8', marginBottom: '20px' }}>
                 An interest in the sword will eventually lead one to recognise that history's best seller, the King James Bible, refers to itself as the 'sword of the Spirit'. Every sword is known as a weapon of offense as well as defense, a symbol of power as well as protection. 
               </p>
               
-              <p style={{ fontSize: '18px', color: 'var(--ink-dark)', lineHeight: '1.8', marginBottom: '20px' }}>
+              <p style={{ fontSize: '18px', color: 'var(--text-bone)', lineHeight: '1.8', marginBottom: '20px' }}>
                 According to Hebrews chapter 4 v12, 'the word of God is quick, and powerful, and sharper than any two edged sword, piercing even to the dividing asunder of soul and spirit, and of the joints and morrow, and is a discerner of the thoughts and intents of the heart.' 1 Peter 1 v23 says one is 'born again, not of corruptible seed, but of incorruptible, by the word of God, which liveth and abideth for ever.'
               </p>
 
-              <p style={{ fontSize: '18px', color: 'var(--ink-dark)', lineHeight: '1.8', marginBottom: '20px' }}>
+              <p style={{ fontSize: '18px', color: 'var(--text-bone)', lineHeight: '1.8', marginBottom: '20px' }}>
                 In John 12 v48, Jesus says, 'He that rejecteth me, and receiveth not my words, hath one that judgeth him: the word that I have spoken, the same shall judge him in the last day.' It is interesting to see from scripture that God's word, or sword, is intended to be man's greatest friend, or greatest foe; the hope of our eternal protection, or the instrument of our eternal destruction. 
               </p>
 
-              <p style={{ fontSize: '18px', color: 'var(--ink-dark)', lineHeight: '1.8', marginBottom: '20px' }}>
+              <p style={{ fontSize: '18px', color: 'var(--text-bone)', lineHeight: '1.8', marginBottom: '20px' }}>
                 'And this is the record, that God hath given to us eternal life, and this life is in his Son' (1 John 5 v11). This 'record' is also called the 'gospel' in 1 Corinthians 15 v1-4, 'how that Christ died for our sins according to the scriptures; And that he was buried, and that he rose again the third day according to the scriptures:' Faith in God's word as the written record of the gospel determines our eternal destination, and therefore Acts 16 v31 states, 'believe on the Lord Jesus Christ, and thou shalt be saved'.
               </p>
 
-              <p style={{ fontSize: '18px', color: 'var(--ink-dark)', lineHeight: '1.8', marginBottom: '24px' }}>
+              <p style={{ fontSize: '18px', color: 'var(--text-bone)', lineHeight: '1.8', marginBottom: '24px' }}>
                 Considering all this, what sword could be of greater importance, or worth possessing? For this reason, Vogie Forge offers free King James Bibles upon request, while supplies last. Please contact us for more information.
               </p>
 
               <div style={{ display: 'flex', justifyContent: 'center', marginTop: '32px' }}>
-                <button className="custom-button" style={{ background: 'var(--ink-red)', borderColor: 'var(--ink-red)', color: 'white' }} onClick={() => {
+                <button className="custom-button" onClick={() => {
                   setFormData(prev => ({ ...prev, message: 'I would like to request a free copy of the King James Bible, as offered on your website.' }));
                   setActiveTab('contact');
                 }}>

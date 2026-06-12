@@ -17,12 +17,12 @@
   
   /* Antiquity Typography Colors */
   --text-bone: #f5f2eb;        /* Bleached vellum */
-  --text-tarnish: #cfc9b8;     /* Aged silver/brass */
-  --text-ash: #8c8576;         /* Hearth ash gray */
+  --text-tarnish: #e3dfd5;     /* Aged silver/brass - brightened for contrast */
+  --text-ash: #aba496;         /* Hearth ash gray - brightened for readability */
   
   /* Ink Colors for Parchment scrolls */
-  --ink-dark: #241d13;         /* Gall-nut iron ink */
-  --ink-muted: #5e513a;        /* Faded sepia */
+  --ink-dark: #1d1810;         /* Gall-nut iron ink */
+  --ink-muted: #534731;        /* Faded sepia */
   --ink-red: #8f2317;          /* Rubricator vermillion */
   
   /* Shadow & Aura glows */
@@ -64,13 +64,13 @@
 body {
   background-color: var(--bg-dark);
   color: var(--text-bone);
-  font-family: var(--font-serif);
-  font-size: 17px;
-  line-height: 1.7;
+  font-family: var(--font-accent); /* Outfit sans-serif by default for premium modern legibility */
+  font-size: 16px;
+  line-height: 1.75;
   overflow-x: hidden;
   min-height: 100dvh;
   position: relative;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.02em;
 }
 
 /* Ash & Hearth Texture Overlay */

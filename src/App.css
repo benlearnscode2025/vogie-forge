@@ -11,14 +11,16 @@
   position: sticky;
   top: 0;
   height: 90px;
-  background: rgba(10, 9, 8, 0.95);
-  border-bottom: 3px double var(--gold-solid);
+  background: rgba(10, 9, 8, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(197, 160, 89, 0.15);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 40px;
   z-index: 100;
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5);
 }
 
 .nav-brand {
@@ -89,7 +91,7 @@
   justify-content: center;
   text-align: center;
   overflow: hidden;
-  border-bottom: 4px double var(--gold-solid);
+  border-bottom: 1px solid rgba(197, 160, 89, 0.15);
 }
 
 .hero-bg {
@@ -265,19 +267,17 @@
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8));
 }
 
-/* Parchment / Vellum Scroll Container (Ancient Manuscripts style) */
+/* Premium Dark Slab Container (Overriding old yellow parchment) */
 .parchment-scroll {
-  background-color: var(--bg-parchment);
-  background-image: radial-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 0);
+  background-color: var(--bg-slate);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 0);
   background-size: 30px 30px;
-  color: var(--ink-dark);
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  color: var(--text-bone);
+  border: 1px solid rgba(197, 160, 89, 0.2);
   border-radius: 4px;
-  box-shadow: 
-    0 10px 30px rgba(0, 0, 0, 0.6), 
-    inset 0 0 40px rgba(139, 90, 43, 0.15);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
   position: relative;
-  font-family: var(--font-serif);
+  font-family: var(--font-accent);
 }
 
 .parchment-scroll::after {
@@ -287,7 +287,7 @@
   left: 6px;
   right: 6px;
   bottom: 6px;
-  border: 1px solid rgba(139, 90, 43, 0.25);
+  border: 1px solid rgba(197, 160, 89, 0.08);
   pointer-events: none;
 }
 
@@ -728,7 +728,7 @@
   font-size: 21px;
   font-style: italic;
   line-height: 1.8;
-  color: var(--ink-dark);
+  color: var(--text-bone);
   margin-bottom: 28px;
 }
 
@@ -736,7 +736,7 @@
   font-family: var(--font-accent);
   font-size: 14px;
   letter-spacing: 2px;
-  color: var(--ink-red);
+  color: var(--gold-solid);
   text-transform: uppercase;
 }
 
@@ -750,50 +750,62 @@
 }
 
 .accordion-item {
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 2px;
+  border: 1px solid rgba(197, 160, 89, 0.15);
+  background: var(--bg-slate);
+  border-radius: 4px;
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  transition: border-color 0.3s ease;
+}
+
+.accordion-item:hover {
+  border-color: rgba(197, 160, 89, 0.3);
+}
+
+.accordion-item.open {
+  border-color: var(--gold-solid);
 }
 
 .accordion-trigger {
   padding: 24px 32px;
-  background: var(--bg-parchment-dark);
+  background: var(--bg-slate);
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  border-bottom: 1px solid rgba(139, 90, 43, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .accordion-trigger:hover {
-  background: #e2d7b8;
+  background: var(--bg-hearth);
 }
 
 .accordion-question {
   font-family: var(--font-heading);
   font-size: 18px;
-  color: var(--ink-dark);
+  color: var(--text-bone);
   text-align: left;
+  letter-spacing: 0.5px;
 }
 
 .accordion-icon {
-  color: var(--ink-muted);
+  color: var(--gold-solid);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .accordion-item.open .accordion-icon {
   transform: rotate(180deg);
-  color: var(--ink-red);
+  color: var(--gold-glow);
 }
 
 .accordion-content {
   padding: 32px;
-  background: var(--bg-parchment);
-  font-size: 16.5px;
-  color: var(--ink-dark);
-  line-height: 1.75;
+  background: rgba(10, 9, 8, 0.4);
+  font-size: 16px;
+  color: var(--text-tarnish);
+  line-height: 1.8;
+  border-top: 1px solid rgba(255, 255, 255, 0.02);
 }
 
 /* Materials & Process details */
@@ -959,18 +971,18 @@ textarea.custom-input {
   display: flex;
   gap: 14px;
   font-size: 15px;
-  color: var(--ink-dark);
+  color: var(--text-tarnish);
   line-height: 1.6;
 }
 
 .policy-bullet {
-  color: var(--ink-red);
+  color: var(--gold-solid);
   font-weight: bold;
 }
 
 /* Footer styling */
 .footer {
-  border-top: 3px double var(--gold-solid);
+  border-top: 1px solid rgba(197, 160, 89, 0.15);
   background: rgba(10, 9, 8, 0.98);
   padding: 64px 32px;
   text-align: center;
