@@ -4,7 +4,6 @@ import scabbard1 from './assets/scabbard_1.jpg';
 import scabbard2 from './assets/scabbard_2.jpg';
 import scabbard3 from './assets/scabbard_3.jpg';
 import scabbard4 from './assets/scabbard_4.jpg';
-import scabbardVideo from './assets/scabbard_video.mp4';
 
 
 // ---------------------------------------------------------
@@ -580,9 +579,15 @@ function App() {
           {/* Scabbard Proof Section */}
           <section style={{ borderTop: '1px solid rgba(236,231,219,0.1)', background: '#1b1916' }}>
             <div style={{ maxWidth: '1200px', margin: '0 auto', padding: 'clamp(40px, 6vw, 72px) clamp(16px, 4vw, 40px)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: 'clamp(28px, 5vw, 64px)', alignItems: 'center' }}>
-              <div style={{ position: 'relative', aspectRatio: '16/9', borderRadius: '16px', overflow: 'hidden', background: '#25211c', border: '1px solid rgba(236,231,219,0.08)' }}>
-                <img src={scabbard4} alt="The ceremonial scabbard for the Sword of State" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', aspectRatio: '16/9', width: '100%' }}>
+                <div style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden', background: '#25211c', border: '1px solid rgba(236,231,219,0.08)' }}>
+                  <img src={scabbard4} alt="The ceremonial scabbard for the Sword of State" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                </div>
+                <div style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden', background: '#25211c', border: '1px solid rgba(236,231,219,0.08)' }}>
+                  <img src={scabbard3} alt="Gold-leaf lettering details on the sword blade" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                </div>
               </div>
+
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 <span style={{ font: '500 11px/1 var(--font-mono)', letterSpacing: '0.18em', color: '#c98b46', textTransform: 'uppercase' }}>Provenance & Craft</span>
                 <h2 style={{ margin: 0, font: "400 clamp(24px, 3vw, 32px)/1.25 'Libre Caslon Text', Georgia, serif", color: '#ece7db', textWrap: 'pretty' as React.CSSProperties['textWrap'] }}>
@@ -1189,17 +1194,9 @@ function App() {
             </p>
           </article>
 
-          {/* Video Player */}
-          <section style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '16px' }}>
-            <h2 style={{ margin: 0, font: "400 24px/1.2 'Libre Caslon Text', Georgia, serif", color: '#ece7db' }}>Crafting the Presentation Piece</h2>
-            <div style={{ position: 'relative', width: '100%', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(236,231,219,0.1)', background: '#1b1916', aspectRatio: '16/9' }}>
-              <video src={scabbardVideo} controls poster={scabbard1} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            </div>
-          </section>
-
           <section style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '24px' }}>
-
             <h2 style={{ margin: 0, font: "400 24px/1.2 'Libre Caslon Text', Georgia, serif", color: '#ece7db' }}>Gallery</h2>
+
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
               <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(236,231,219,0.1)', background: '#1b1916' }}>
                 <img src={scabbard1} alt="The King's scabbard being carved" style={{ width: '100%', height: 'auto', display: 'block' }} />
