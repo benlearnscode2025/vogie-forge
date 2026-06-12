@@ -180,18 +180,7 @@ function VipButton({ onClick, children }: { onClick: () => void, children: React
     <button 
       type="button"
       onClick={onClick} 
-      className="btn-gold"
-      style={{ 
-        font: '500 13px/1 var(--font-sans)', 
-        color: '#1b1916', 
-        background: '#c98b46', 
-        border: 'none',
-        padding: '12px 24px', 
-        borderRadius: '999px', 
-        cursor: 'pointer',
-        fontWeight: 'bold',
-        outline: 'none'
-      }}
+      className="vip-btn"
     >
       {children}
     </button>
@@ -324,6 +313,37 @@ function App() {
     window.history.pushState(null, '', hashPath);
     setRoute({ page, slug });
     window.scrollTo(0, 0);
+  };
+
+  // Spark burst micro-interaction on logo click/hover
+  const [sparks, setSparks] = useState<{ id: number; dx: string; dy: string; x: number; y: number }[]>([]);
+  const sparkIdCounter = React.useRef(0);
+
+  const triggerSparks = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const newSparks = Array.from({ length: 12 }).map(() => {
+      const angle = Math.random() * Math.PI * 2;
+      const distance = 15 + Math.random() * 50;
+      const dx = `${Math.cos(angle) * distance}px`;
+      const dy = `${Math.sin(angle) * distance}px`;
+      sparkIdCounter.current += 1;
+      return {
+        id: sparkIdCounter.current,
+        dx,
+        dy,
+        x,
+        y
+      };
+    });
+
+    setSparks((prev) => [...prev, ...newSparks]);
+
+    setTimeout(() => {
+      setSparks((prev) => prev.filter((s) => !newSparks.find((ns) => ns.id === s.id)));
+    }, 700);
   };
 
   useEffect(() => {
@@ -505,9 +525,31 @@ function App() {
       {/* Nav */}
       <header style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(19,17,16,0.82)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(236,231,219,0.1)' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 clamp(16px, 4vw, 40px)', display: 'flex', alignItems: 'center', gap: '20px', height: '64px' }}>
-          <a href="#/home" onClick={(e) => { e.preventDefault(); navigate("home"); }} style={{ display: 'flex', flexDirection: 'column', gap: '1px', textDecoration: 'none', flexShrink: 0 }}>
+          <a 
+            href="#/home" 
+            onClick={(e) => { 
+              e.preventDefault(); 
+              navigate("home"); 
+              triggerSparks(e); 
+            }} 
+            onMouseEnter={triggerSparks}
+            className="logo-container"
+            style={{ display: 'flex', flexDirection: 'column', gap: '1px', textDecoration: 'none', flexShrink: 0, position: 'relative' }}
+          >
             <span style={{ font: "700 17px/1 'Libre Caslon Text', Georgia, serif", color: '#ece7db', letterSpacing: '0.02em' }}>Vogie Forge</span>
             <span style={{ font: '500 9px/1 var(--font-mono)', letterSpacing: '0.22em', color: '#a8a294', textTransform: 'uppercase' }}>Ohio · USA</span>
+            {sparks.map((spark) => (
+              <div 
+                key={spark.id} 
+                className="logo-spark" 
+                style={{ 
+                  left: spark.x, 
+                  top: spark.y, 
+                  '--dx': spark.dx, 
+                  '--dy': spark.dy 
+                } as React.CSSProperties} 
+              />
+            ))}
           </a>
           <nav aria-label="Main" className="nav-container">
             {navItems.map((nv) => (
@@ -540,6 +582,26 @@ function App() {
           <section style={{ position: 'relative', minHeight: '82dvh', display: 'flex', alignItems: 'flex-end', overflow: 'hidden' }}>
             <img src="https://static.wixstatic.com/media/cd5cc7_89e156a4623340d59bd3b7263dcb518c~mv2.jpg" alt="Dane Vogelpohl drawing a glowing high-carbon blade from the forge in Crieff" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(19,17,16,0.94) 8%, rgba(19,17,16,0.45) 45%, rgba(19,17,16,0.25) 100%)' }}></div>
+            <div className="ember-container">
+              {[...Array(15)].map((_, i) => {
+                const left = `${(i * 6.5) + (Math.sin(i) * 3)}%`;
+                const delay = `${i * 1.3}s`;
+                const duration = `${12 + (i % 5) * 3}s`;
+                const scale = 0.4 + (i % 3) * 0.3;
+                return (
+                  <div 
+                    key={i} 
+                    className="ember-particle" 
+                    style={{ 
+                      left, 
+                      animationDelay: delay, 
+                      animationDuration: duration,
+                      transform: `scale(${scale})`
+                    }} 
+                  />
+                );
+              })}
+            </div>
             <div style={{ position: 'relative', maxWidth: '1200px', margin: '0 auto', width: '100%', padding: 'clamp(80px, 14vh, 160px) clamp(16px, 4vw, 40px) clamp(48px, 8vh, 88px)', display: 'flex', flexDirection: 'column', gap: '24px' }}>
               <h1 style={{ margin: 0, font: "400 clamp(38px, 6.5vw, 72px)/1.08 'Libre Caslon Text', Georgia, serif", color: '#f6f2ea', maxWidth: '20ch', textWrap: 'pretty' as React.CSSProperties['textWrap'] }}>Scottish roots, now forged in America.</h1>
               <p style={{ margin: 0, font: '400 17px/1.6 var(--font-sans)', color: '#a8a294', maxWidth: '52ch', textWrap: 'pretty' as React.CSSProperties['textWrap'] }}>Sgian dubhs, dirks and claymores hand-forged in Ohio, USA by Dane Vogelpohl in the Highland tradition. Each batch runs 15 to 40 blades. Editions are final.</p>
@@ -1180,7 +1242,7 @@ function App() {
             </p>
           </header>
 
-          <article style={{ display: 'flex', flexDirection: 'column', gap: '24px', font: '400 16px/1.65 var(--font-sans)', color: '#a8a294' }}>
+          <article style={{ display: 'flex', flexDirection: 'column', gap: '24px', font: '400 16px/1.65 var(--font-sans)', color: '#a8a294', maxWidth: '680px', margin: '0 auto', width: '100%' }}>
             <p>
               In 2023, Scotland commissioned a new Sword of State to replace the historical Honours of Scotland, which could no longer be used due to their fragility. The new sword was named the Elizabeth Sword.
             </p>
@@ -1197,21 +1259,21 @@ function App() {
 
           <section style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '24px' }}>
             <h2 style={{ margin: 0, font: "400 24px/1.2 'Libre Caslon Text', Georgia, serif", color: '#ece7db' }}>Gallery</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
-              <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(236,231,219,0.1)', background: '#1b1916', aspectRatio: '4/3' }}>
-                <img src={scabbard2} alt="Intricate gilding and etching details on the Elizabeth Sword" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            <div className="gallery-masonry">
+              <div className="gallery-masonry-item">
+                <img src={scabbard2} alt="Intricate gilding and etching details on the Elizabeth Sword" />
               </div>
-              <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(236,231,219,0.1)', background: '#1b1916', aspectRatio: '4/3' }}>
-                <img src={scabbard3} alt="Gold-leaf lettering details on the sword blade" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              <div className="gallery-masonry-item">
+                <img src={scabbard3} alt="Gold-leaf lettering details on the sword blade" />
               </div>
-              <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(236,231,219,0.1)', background: '#1b1916', aspectRatio: '4/3' }}>
-                <img src={scabbard4} alt="The final scabbard for the Sword of State" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              <div className="gallery-masonry-item">
+                <img src={scabbard4} alt="The final scabbard for the Sword of State" />
               </div>
-              <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(236,231,219,0.1)', background: '#1b1916', aspectRatio: '4/3' }}>
-                <img src={scabbard6} alt="Hilt of the sword with the gold guard and purple grip" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              <div className="gallery-masonry-item">
+                <img src={scabbard6} alt="Hilt of the sword with the gold guard and purple grip" />
               </div>
-              <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(236,231,219,0.1)', background: '#1b1916', aspectRatio: '4/3' }}>
-                <img src={scabbard12} alt="Sourcing, fitting and carving the scabbard wood" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              <div className="gallery-masonry-item">
+                <img src={scabbard12} alt="Sourcing, fitting and carving the scabbard wood" />
               </div>
             </div>
           </section>
