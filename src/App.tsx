@@ -503,7 +503,7 @@ function App() {
 
   const navItems = links.map(({ id, label }) => ({
     id, label, href: "#/" + id,
-    color: route.page === id ? "#ece7db" : "#a8a294"
+    color: route.page === id ? "#c98b46" : "#a8a294"
   }));
 
   const isHome = route.page === "home";
@@ -562,9 +562,11 @@ function App() {
                   font: '500 13px/1 var(--font-sans)', 
                   color: nv.color, 
                   textDecoration: 'none', 
-                  padding: '10px 12px', 
+                  padding: '8px 16px', 
                   borderRadius: '999px', 
-                  whiteSpace: 'nowrap'
+                  whiteSpace: 'nowrap',
+                  background: route.page === nv.id ? 'rgba(197, 160, 89, 0.08)' : 'transparent',
+                  border: route.page === nv.id ? '1px solid rgba(197, 160, 89, 0.25)' : '1px solid transparent'
                 }}
               >
                 {nv.label}
@@ -1242,7 +1244,7 @@ function App() {
             </p>
           </header>
 
-          <article style={{ display: 'flex', flexDirection: 'column', gap: '24px', font: '400 16px/1.65 var(--font-sans)', color: '#a8a294', maxWidth: '680px', margin: '0 auto', width: '100%' }}>
+          <article style={{ display: 'flex', flexDirection: 'column', gap: '24px', font: '400 18px/1.8 var(--font-serif)', color: '#ece7db', maxWidth: '680px', margin: '0 auto', width: '100%' }}>
             <p>
               In 2023, Scotland commissioned a new Sword of State to replace the historical Honours of Scotland, which could no longer be used due to their fragility. The new sword was named the Elizabeth Sword.
             </p>
