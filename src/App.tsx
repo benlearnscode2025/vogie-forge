@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import scabbard1 from './assets/scabbard_1.jpg';
 import scabbard2 from './assets/scabbard_2.jpg';
 import scabbard3 from './assets/scabbard_3.jpg';
 import scabbard4 from './assets/scabbard_4.jpg';
+import scabbard6 from './assets/scabbard_6.jpg';
+import scabbard12 from './assets/scabbard_12.jpg';
 
 
 // ---------------------------------------------------------
@@ -1196,19 +1197,21 @@ function App() {
 
           <section style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '24px' }}>
             <h2 style={{ margin: 0, font: "400 24px/1.2 'Libre Caslon Text', Georgia, serif", color: '#ece7db' }}>Gallery</h2>
-
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
-              <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(236,231,219,0.1)', background: '#1b1916' }}>
-                <img src={scabbard1} alt="The King's scabbard being carved" style={{ width: '100%', height: 'auto', display: 'block' }} />
+              <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(236,231,219,0.1)', background: '#1b1916', aspectRatio: '4/3' }}>
+                <img src={scabbard2} alt="Intricate gilding and etching details on the Elizabeth Sword" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
               </div>
-              <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(236,231,219,0.1)', background: '#1b1916' }}>
-                <img src={scabbard2} alt="Intricate gilding and etching details on the Elizabeth Sword" style={{ width: '100%', height: 'auto', display: 'block' }} />
+              <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(236,231,219,0.1)', background: '#1b1916', aspectRatio: '4/3' }}>
+                <img src={scabbard3} alt="Gold-leaf lettering details on the sword blade" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
               </div>
-              <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(236,231,219,0.1)', background: '#1b1916' }}>
-                <img src={scabbard3} alt="Scabbard fitting and finishing" style={{ width: '100%', height: 'auto', display: 'block' }} />
+              <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(236,231,219,0.1)', background: '#1b1916', aspectRatio: '4/3' }}>
+                <img src={scabbard4} alt="The final scabbard for the Sword of State" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
               </div>
-              <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(236,231,219,0.1)', background: '#1b1916' }}>
-                <img src={scabbard4} alt="The final scabbard for the Sword of State" style={{ width: '100%', height: 'auto', display: 'block' }} />
+              <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(236,231,219,0.1)', background: '#1b1916', aspectRatio: '4/3' }}>
+                <img src={scabbard6} alt="Hilt of the sword with the gold guard and purple grip" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              </div>
+              <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(236,231,219,0.1)', background: '#1b1916', aspectRatio: '4/3' }}>
+                <img src={scabbard12} alt="Sourcing, fitting and carving the scabbard wood" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
               </div>
             </div>
           </section>
