@@ -11,7 +11,9 @@ import {
   ChevronRight,
   Send,
   Play,
-  BookOpen
+  BookOpen,
+  Menu,
+  X
 } from 'lucide-react';
 import './App.css';
 const heroBg = 'https://static.wixstatic.com/media/cd5cc7_89e156a4623340d59bd3b7263dcb518c~mv2.jpg/v1/fill/w_1920,h_1080,al_c,q_90/file.jpg';
@@ -301,6 +303,7 @@ function App() {
   const [activeTab, setActiveTab] = useState<'home' | 'catalog' | 'customizer' | 'wip' | 'qa' | 'godsword' | 'contact'>('home');
   const [catalogFilter, setCatalogFilter] = useState<string>('all');
   const [activeFaq, setActiveFaq] = useState<string | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   // Customizer State
   const [swordType, setSwordType] = useState<'claymore' | 'dirk' | 'sgian-dubh'>('claymore');
@@ -406,18 +409,28 @@ function App() {
     <div className="vogie-app">
       {/* Navigation bar */}
       <header className="navbar">
-        <a href="#home" className="nav-brand" onClick={() => setActiveTab('home')}>
+        <a href="#home" className="nav-brand" onClick={() => { setActiveTab('home'); setIsMobileMenuOpen(false); }}>
           <div className="brand-emblem">VF</div>
           <span className="brand-text">VOGIE FORGE</span>
         </a>
-        <nav className="nav-menu">
-          <span className={`nav-link ${activeTab === 'home' ? 'active' : ''}`} onClick={() => setActiveTab('home')}>Home</span>
-          <span className={`nav-link ${activeTab === 'catalog' ? 'active' : ''}`} onClick={() => setActiveTab('catalog')}>Ledger</span>
-          <span className={`nav-link ${activeTab === 'customizer' ? 'active' : ''}`} onClick={() => setActiveTab('customizer')}>Forge Builder</span>
-          <span className={`nav-link ${activeTab === 'wip' ? 'active' : ''}`} onClick={() => setActiveTab('wip')}>Forge Logs</span>
-          <span className={`nav-link ${activeTab === 'qa' ? 'active' : ''}`} onClick={() => setActiveTab('qa')}>Q&A</span>
-          <span className={`nav-link ${activeTab === 'godsword' ? 'active' : ''}`} onClick={() => setActiveTab('godsword')}>God's Word</span>
-          <span className={`nav-link ${activeTab === 'contact' ? 'active' : ''}`} onClick={() => setActiveTab('contact')}>Commission</span>
+        
+        {/* Mobile Menu Toggle */}
+        <button 
+          className="mobile-nav-toggle" 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle navigation menu"
+        >
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+
+        <nav className={`nav-menu ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
+          <span className={`nav-link ${activeTab === 'home' ? 'active' : ''}`} onClick={() => { setActiveTab('home'); setIsMobileMenuOpen(false); }}>Home</span>
+          <span className={`nav-link ${activeTab === 'catalog' ? 'active' : ''}`} onClick={() => { setActiveTab('catalog'); setIsMobileMenuOpen(false); }}>Ledger</span>
+          <span className={`nav-link ${activeTab === 'customizer' ? 'active' : ''}`} onClick={() => { setActiveTab('customizer'); setIsMobileMenuOpen(false); }}>Forge Builder</span>
+          <span className={`nav-link ${activeTab === 'wip' ? 'active' : ''}`} onClick={() => { setActiveTab('wip'); setIsMobileMenuOpen(false); }}>Forge Logs</span>
+          <span className={`nav-link ${activeTab === 'qa' ? 'active' : ''}`} onClick={() => { setActiveTab('qa'); setIsMobileMenuOpen(false); }}>Q&A</span>
+          <span className={`nav-link ${activeTab === 'godsword' ? 'active' : ''}`} onClick={() => { setActiveTab('godsword'); setIsMobileMenuOpen(false); }}>God's Word</span>
+          <span className={`nav-link ${activeTab === 'contact' ? 'active' : ''}`} onClick={() => { setActiveTab('contact'); setIsMobileMenuOpen(false); }}>Commission</span>
         </nav>
       </header>
 
@@ -426,13 +439,13 @@ function App() {
         <section className="hero-section">
           <div className="hero-bg" style={{ backgroundImage: `url(${heroBg})` }}></div>
           <div className="hero-overlay"></div>
-          <div className="hero-content" style={{ textAlign: 'left', marginRight: 'auto', maxWidth: '850px' }}>
+          <div className="hero-content">
             <span className="hero-tagline">Scotland's Hand-Forged Legacy</span>
             <h1 className="hero-title">Forged from Iron. Tempered by Fire.</h1>
             <p className="hero-desc">
               We hammer, quench, and temper blades of historical distinction. Highland Claymores, Ceremonial Swords of State, and ancestral daggers hand-forged in the shadow of the Cairngorm mountains.
             </p>
-            <div className="hero-actions" style={{ justifyContent: 'flex-start' }}>
+            <div className="hero-actions">
               <button className="custom-button" onClick={() => setActiveTab('customizer')}>
                 <Hammer size={16} /> Forge Custom Blade
               </button>
@@ -449,10 +462,10 @@ function App() {
         
         {/* Home View */}
         {activeTab === 'home' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '80px' }}>
+          <div className="home-layout-container">
             {/* Authenticity story */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'start' }}>
-              <div className="iron-panel" style={{ padding: '40px', display: 'flex', flexDirection: 'column', gap: '20px', borderLeft: '4px solid var(--gold-solid)' }}>
+            <div className="story-grid">
+              <div className="iron-panel story-panel-iron">
                 <span style={{ color: 'var(--gold-solid)', fontStyle: 'italic', fontSize: '15px' }}>The Blacksmithing Tenets</span>
                 <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '28px', color: 'var(--text-bone)' }}>Blades Drawn, Quenched & Tempered by Hand</h2>
                 <p className="drop-cap" style={{ color: 'var(--text-tarnish)', fontSize: '17px', lineHeight: '1.8' }}>
@@ -468,7 +481,7 @@ function App() {
                 </div>
               </div>
               
-              <div className="parchment-scroll" style={{ padding: '40px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <div className="parchment-scroll story-panel-parchment">
                 <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '22px', color: 'var(--ink-red)' }}>The Ancestral Oath</h3>
                 <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   <li style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
@@ -1002,18 +1015,7 @@ function App() {
               <div className="section-divider"></div>
             </div>
 
-            <div className="godsword-banner" style={{
-              backgroundImage: 'linear-gradient(rgba(10, 9, 8, 0.75), rgba(10, 9, 8, 0.95)), url("https://static.wixstatic.com/media/cd5cc7_75f893fef5774cd3ad077e26c170a3cc~mv2.jpg/v1/fill/w_1200,h_400,al_c,q_85/file.jpg")',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              border: '1px solid var(--border-iron)',
-              borderBottom: '3px double var(--gold-solid)',
-              padding: '64px 32px',
-              textAlign: 'center',
-              maxWidth: '850px',
-              margin: '0 auto 56px',
-              boxShadow: '0 8px 30px rgba(0, 0, 0, 0.6)'
-            }}>
+            <div className="godsword-banner">
               <span style={{
                 fontFamily: 'var(--font-heading)',
                 fontSize: '28px',
@@ -1022,7 +1024,7 @@ function App() {
                 display: 'block',
                 marginBottom: '16px',
                 textShadow: 'var(--glow-gold)'
-              }}>
+               }}>
                 Ephesians 6 v17
               </span>
               <p style={{
@@ -1039,7 +1041,7 @@ function App() {
               </p>
             </div>
 
-            <div className="parchment-scroll" style={{ padding: '48px', maxWidth: '850px', margin: '0 auto' }}>
+            <div className="parchment-scroll godsword-parchment">
               <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '24px', color: 'var(--ink-red)', marginBottom: '24px', textAlign: 'center' }}>Concerning the Possession of God's Word</h3>
               
               <p className="drop-cap-parchment" style={{ fontSize: '18px', color: 'var(--ink-dark)', lineHeight: '1.8', marginBottom: '20px' }}>
@@ -1207,12 +1209,12 @@ function App() {
       {/* Footer */}
       <footer className="footer">
         <span className="footer-emblem">VOGIE FORGE</span>
-        <div style={{ display: 'flex', gap: '24px', fontSize: '15px', fontFamily: 'var(--font-accent)' }}>
-          <a href="#home" style={{ color: 'var(--text-tarnish)', textDecoration: 'none' }} onClick={() => setActiveTab('home')}>Home</a>
-          <a href="#ledger" style={{ color: 'var(--text-tarnish)', textDecoration: 'none' }} onClick={() => setActiveTab('catalog')}>Ledger</a>
-          <a href="#builder" style={{ color: 'var(--text-tarnish)', textDecoration: 'none' }} onClick={() => setActiveTab('customizer')}>Builder</a>
-          <a href="#godsword" style={{ color: 'var(--text-tarnish)', textDecoration: 'none' }} onClick={() => setActiveTab('godsword')}>God's Word</a>
-          <a href="#qa" style={{ color: 'var(--text-tarnish)', textDecoration: 'none' }} onClick={() => setActiveTab('qa')}>Q&A</a>
+        <div className="footer-links">
+          <a href="#home" onClick={() => setActiveTab('home')}>Home</a>
+          <a href="#ledger" onClick={() => setActiveTab('catalog')}>Ledger</a>
+          <a href="#builder" onClick={() => setActiveTab('customizer')}>Builder</a>
+          <a href="#godsword" onClick={() => setActiveTab('godsword')}>God's Word</a>
+          <a href="#qa" onClick={() => setActiveTab('qa')}>Q&A</a>
         </div>
         <p className="footer-text">
           &copy; {new Date().getFullYear()} Vogie Forge. Hand forged in Scotland. All rights reserved.

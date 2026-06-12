@@ -990,3 +990,267 @@ textarea.custom-input {
   font-size: 14px;
   color: var(--text-ash);
 }
+
+/* Mobile responsive styles & hamburger menu toggle */
+.mobile-nav-toggle {
+  display: none;
+  background: transparent;
+  border: 1px solid var(--border-iron);
+  color: var(--gold-solid);
+  padding: 8px;
+  cursor: pointer;
+  z-index: 110;
+  transition: all 0.3s ease;
+}
+
+.mobile-nav-toggle:hover {
+  border-color: var(--gold-solid);
+  color: var(--gold-glow);
+  background: rgba(197, 160, 89, 0.05);
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+  font-size: 15px;
+  font-family: var(--font-accent);
+}
+
+.footer-links a {
+  color: var(--text-tarnish);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: var(--gold-glow);
+}
+
+/* Story Layout Styles */
+.story-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.story-panel-iron {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-left: 4px solid var(--gold-solid);
+}
+
+.story-panel-parchment {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.home-layout-container {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+/* Scripture Reflection Responsive Styles */
+.godsword-parchment {
+  padding: 48px;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.godsword-banner {
+  background-image: linear-gradient(rgba(10, 9, 8, 0.75), rgba(10, 9, 8, 0.95)), url("https://static.wixstatic.com/media/cd5cc7_75f893fef5774cd3ad077e26c170a3cc~mv2.jpg/v1/fill/w_1200,h_400,al_c,q_85/file.jpg");
+  background-size: cover;
+  background-position: center;
+  border: 1px solid var(--border-iron);
+  border-bottom: 3px double var(--gold-solid);
+  padding: 64px 32px;
+  text-align: center;
+  max-width: 850px;
+  margin: 0 auto 56px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* Mobile Media Queries */
+@media (max-width: 1024px) {
+  .customizer-options,
+  .customizer-preview {
+    padding: 32px 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-nav-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .navbar {
+    padding: 0 20px;
+    height: 75px;
+  }
+
+  .brand-text {
+    font-size: 18px;
+    letter-spacing: 2px;
+  }
+
+  .brand-emblem {
+    width: 42px;
+    height: 42px;
+    font-size: 22px;
+  }
+
+  /* Slide-out mobile navigation drawer */
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    right: -100%; /* off-screen initially */
+    width: 280px;
+    height: 100vh;
+    background: rgba(10, 9, 8, 0.98);
+    border-left: 2px solid var(--gold-solid);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.95);
+    flex-direction: column;
+    padding: 100px 30px 40px 30px;
+    gap: 16px;
+    transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 105;
+  }
+
+  .nav-menu.mobile-open {
+    right: 0;
+  }
+
+  .nav-link {
+    font-size: 18px;
+    width: 100%;
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px dashed var(--border-iron);
+  }
+
+  .nav-link:hover, .nav-link.active {
+    border-bottom: 1px solid var(--gold-solid);
+    background: rgba(197, 160, 89, 0.05);
+  }
+
+  .story-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .story-panel-iron,
+  .story-panel-parchment {
+    padding: 24px 20px;
+  }
+
+  .home-layout-container {
+    gap: 48px;
+  }
+
+  .view-container {
+    padding: 40px 16px;
+  }
+
+  .section-title-group {
+    margin-bottom: 36px;
+  }
+
+  .section-title {
+    font-size: 28px;
+  }
+
+  .hero-title {
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+
+  .hero-desc {
+    font-size: 16px;
+    margin-bottom: 24px;
+  }
+
+  .hero-section {
+    height: auto;
+    min-height: 480px;
+    padding: 80px 0;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .hero-content {
+    text-align: center;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .testimonials-section {
+    padding: 40px 20px;
+    margin-bottom: 48px;
+  }
+
+  .testimonial-quote {
+    font-size: 17px;
+    line-height: 1.6;
+  }
+
+  .wip-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .godsword-parchment {
+    padding: 24px 20px;
+  }
+
+  .godsword-banner {
+    padding: 36px 20px;
+    margin-bottom: 36px;
+  }
+
+  .customizer-options,
+  .customizer-preview,
+  .contact-form-panel,
+  .contact-info-panel {
+    padding: 24px 20px;
+  }
+
+  .option-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .option-btn {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .catalog-grid {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  
+  .card-content {
+    padding: 20px;
+  }
+
+  .footer-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+}
