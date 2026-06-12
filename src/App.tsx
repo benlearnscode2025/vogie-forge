@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import scabbard1 from './assets/2B8A3232.jpg';
+import scabbard2 from './assets/2B8A3233.jpg';
+import scabbard3 from './assets/2B8A3234.jpg';
+import scabbard4 from './assets/2B8A3235.jpg';
 
 // ---------------------------------------------------------
 // DATA MODELS & INTERFACES
@@ -70,8 +74,10 @@ const CONFIG = {
   NEXT_DROP_DATE: "2026-07-15T18:00:00Z", // Set to "TBA" to test TBA state
   CHECKOUT_URL: "https://checkout.shopify.com/placeholder-vogie-forge", // Shopify checkout link or Buy Button target
   LIST_PROVIDER: "Klaviyo", // Klaviyo, Postscript, Attentive, etc.
+  KLAVIYO_COMPANY_ID: "PLACEHOLDER_COMPANY_ID",
+  KLAVIYO_LIST_ID: "PLACEHOLDER_LIST_ID",
   MAKER_NAME: "Dane Vogelpohl",
-  FORGE_LOCATION: "Crieff, Scotland"
+  FORGE_LOCATION: "Ohio, USA"
 };
 
 const IN_BOX_DEFAULT = "Numbered and signed certificate, care card with a code that opens the care guide, blade shipped oiled and sharpened.";
@@ -196,12 +202,45 @@ function VipCapture({ headline }: { headline: string }) {
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
 
-  const submit = () => {
+  const submit = async () => {
     const ok = /.+@.+\..+/.test(email.trim());
     if (!ok) {
       setError("Enter a valid email");
       return;
     }
+
+    const companyId = CONFIG.KLAVIYO_COMPANY_ID;
+    const listId = CONFIG.KLAVIYO_LIST_ID;
+
+    if (companyId && companyId !== "PLACEHOLDER_COMPANY_ID" && listId && listId !== "PLACEHOLDER_LIST_ID") {
+      try {
+        setError("");
+        const formData = new URLSearchParams();
+        formData.append("g", listId);
+        formData.append("email", email.trim());
+        if (phone.trim()) {
+          formData.append("phone_number", phone.trim());
+          formData.append("$consent", "email,sms");
+        } else {
+          formData.append("$consent", "email");
+        }
+
+        const response = await fetch(`https://manage.kmail-lists.com/ajax/subscriptions/subscribe`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          body: formData.toString()
+        });
+
+        if (!response.ok) {
+          throw new Error("Subscription failed");
+        }
+      } catch (err) {
+        console.error("Klaviyo subscription error:", err);
+      }
+    }
+
     setSent(true);
     setError("");
   };
@@ -264,12 +303,12 @@ function App() {
     const hash = (window.location.hash || "").replace(/^#\//, "");
     if (hash) {
       const [page, slug] = hash.split("/");
-      const valid = ["home","drops","collection","culinary","forge","care","faq","vip","custom","product","scripture"];
+      const valid = ["home","drops","collection","culinary","forge","care","faq","vip","custom","product","scripture","the-scabbard"];
       if (valid.includes(page)) return { page, slug: slug || null };
     }
     const path = window.location.pathname.replace(/^\//, "");
     const [page, slug] = path.split("/");
-    const valid = ["home","drops","collection","culinary","forge","care","faq","vip","custom","product","scripture"];
+    const valid = ["home","drops","collection","culinary","forge","care","faq","vip","custom","product","scripture","the-scabbard"];
     if (valid.includes(page)) return { page, slug: slug || null };
     return { page: "home", slug: null };
   };
@@ -313,18 +352,21 @@ function App() {
   // SEO & Lexicon Metadata Sync
   useEffect(() => {
     let title = "Vogie Forge — Hand-Forged Highland Blades, Released in Numbered Batches";
-    let description = "Sgian dubhs, dirks, claymores and culinary blades hand-forged in Scotland from high-carbon steel. Small numbered editions. Join the list for first access.";
+    let description = "Scottish roots, now forged in America. Sgian dubhs, dirks, claymores and culinary blades hand-forged from high-carbon steel. Small numbered editions. Join the list for first access.";
 
     const page = route.page;
     if (page === 'drops') {
       title = "Vogie Forge — Numbered Batch Releases";
+    } else if (page === 'the-scabbard') {
+      title = "The King's Scabbard — Vogie Forge";
+      description = "The story of the scabbard presented to King Charles III in 2023, crafted by Vogie Forge.";
     } else if (page === 'collection') {
       title = "Vogie Forge — The Heirloom Collection";
     } else if (page === 'product' && route.slug) {
       const prod = DECORATED_BATCH.find(p => p.slug === route.slug);
       if (prod) {
         title = `${prod.name} | Batch 001 | Vogie Forge`;
-        description = `${prod.name} — Edition of ${prod.edition}. Hand-forged in Scotland from ${prod.steel}.`;
+        description = `${prod.name} — Edition of ${prod.edition}. Forged in Ohio, USA from ${prod.steel}.`;
       }
     } else if (page === 'culinary') {
       title = "Vogie Forge — Culinary & Kitchen Line";
@@ -419,6 +461,7 @@ function App() {
   const dropStatusLine = tVal ? dropDateLabel : "Date announced to the list first.";
 
   const faqs = [
+    { q: "Where are these blades made?", a: "All Vogie Forge blades are hand-forged in Ohio, USA. While our heritage, training, and pattern language (sgian dubh, dirk, claymore) are rooted in the Scottish Highlands, present-tense manufacturing takes place in our American workshop." },
     { q: "Who can buy, and where do you ship?", a: "Buyers must be 18 or over. Deliveries require an adult signature with age verification at the door. Some countries and regions restrict the import or carriage of blades; check your local rules before ordering. Placeholder: the owner must confirm this copy against current UK export rules and destination-country law before launch." },
     { q: "Will a sold-out edition return?", a: "No. Editions are final. When the last number in a batch sells, that pattern in that configuration is finished. The next batch is a different set of blades." },
     { q: "How long until my blade ships?", a: "Batch blades are finished before a drop opens. Allow up to two weeks for packing and dispatch. Placeholder: owner to confirm dispatch window." },
@@ -452,6 +495,7 @@ function App() {
   const isCustom = route.page === "custom";
   const isProduct = route.page === "product";
   const isScripture = route.page === "scripture";
+  const isScabbard = route.page === "the-scabbard";
 
   return (
     <div style={{ minHeight: '100dvh', background: '#131110', color: '#ece7db', fontFamily: 'var(--font-sans)', fontSize: '16px', lineHeight: '1.6' }}>
@@ -461,7 +505,7 @@ function App() {
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 clamp(16px, 4vw, 40px)', display: 'flex', alignItems: 'center', gap: '20px', height: '64px' }}>
           <a href="#/home" onClick={(e) => { e.preventDefault(); navigate("home"); }} style={{ display: 'flex', flexDirection: 'column', gap: '1px', textDecoration: 'none', flexShrink: 0 }}>
             <span style={{ font: "700 17px/1 'Libre Caslon Text', Georgia, serif", color: '#ece7db', letterSpacing: '0.02em' }}>Vogie Forge</span>
-            <span style={{ font: '500 9px/1 var(--font-mono)', letterSpacing: '0.22em', color: '#a8a294', textTransform: 'uppercase' }}>Crieff · Scotland</span>
+            <span style={{ font: '500 9px/1 var(--font-mono)', letterSpacing: '0.22em', color: '#a8a294', textTransform: 'uppercase' }}>Ohio · USA</span>
           </a>
           <nav aria-label="Main" className="nav-container">
             {navItems.map((nv) => (
@@ -495,8 +539,8 @@ function App() {
             <img src="https://static.wixstatic.com/media/cd5cc7_89e156a4623340d59bd3b7263dcb518c~mv2.jpg" alt="Dane Vogelpohl drawing a glowing high-carbon blade from the forge in Crieff" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(19,17,16,0.94) 8%, rgba(19,17,16,0.45) 45%, rgba(19,17,16,0.25) 100%)' }}></div>
             <div style={{ position: 'relative', maxWidth: '1200px', margin: '0 auto', width: '100%', padding: 'clamp(80px, 14vh, 160px) clamp(16px, 4vw, 40px) clamp(48px, 8vh, 88px)', display: 'flex', flexDirection: 'column', gap: '24px' }}>
-              <h1 style={{ margin: 0, font: "400 clamp(38px, 6.5vw, 72px)/1.08 'Libre Caslon Text', Georgia, serif", color: '#f6f2ea', maxWidth: '16ch', textWrap: 'pretty' as React.CSSProperties['textWrap'] }}>Hand-forged in Scotland. Released in numbered batches.</h1>
-              <p style={{ margin: 0, font: '400 17px/1.6 var(--font-sans)', color: '#a8a294', maxWidth: '52ch', textWrap: 'pretty' as React.CSSProperties['textWrap'] }}>Sgian dubhs, dirks and claymores from the forge of Dane Vogelpohl in Crieff, Perthshire. Each batch runs 15 to 40 blades. Editions are final.</p>
+              <h1 style={{ margin: 0, font: "400 clamp(38px, 6.5vw, 72px)/1.08 'Libre Caslon Text', Georgia, serif", color: '#f6f2ea', maxWidth: '20ch', textWrap: 'pretty' as React.CSSProperties['textWrap'] }}>Scottish roots, now forged in America.</h1>
+              <p style={{ margin: 0, font: '400 17px/1.6 var(--font-sans)', color: '#a8a294', maxWidth: '52ch', textWrap: 'pretty' as React.CSSProperties['textWrap'] }}>Sgian dubhs, dirks and claymores hand-forged in Ohio, USA by Dane Vogelpohl in the Highland tradition. Each batch runs 15 to 40 blades. Editions are final.</p>
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                 <a href="#/vip" onClick={(e) => { e.preventDefault(); navigate("vip"); }} style={{ font: '500 15px/1 var(--font-sans)', color: '#1b1916', background: '#c98b46', textDecoration: 'none', padding: '15px 26px', borderRadius: '999px', transition: 'background 150ms cubic-bezier(0.16,1,0.3,1)', fontWeight: 'bold' }} className="btn-gold">Join the list</a>
                 <a href="#/drops" onClick={(e) => { e.preventDefault(); navigate("drops"); }} style={{ font: '500 15px/1 var(--font-sans)', color: '#ece7db', background: 'transparent', border: '1px solid rgba(236,231,219,0.3)', textDecoration: 'none', padding: '14px 26px', borderRadius: '999px', transition: 'border-color 150ms' }} onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(236,231,219,0.6)'} onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(236,231,219,0.3)'}>See Batch 001</a>
@@ -528,6 +572,27 @@ function App() {
                 <p style={{ margin: 0, font: '400 14px/1.55 var(--font-sans)', color: '#a8a294', maxWidth: '44ch' }}>Four patterns. Sgian dubhs, a field knife in antler, a chef knife in bog oak, and a Highland dirk. Numbered, signed, and never restocked.</p>
               </div>
               <VipCapture headline="Batch 001 goes to the list first." />
+            </div>
+          </section>
+
+          {/* Scabbard Proof Section */}
+          <section style={{ borderTop: '1px solid rgba(236,231,219,0.1)', background: '#1b1916' }}>
+            <div style={{ maxWidth: '1200px', margin: '0 auto', padding: 'clamp(40px, 6vw, 72px) clamp(16px, 4vw, 40px)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: 'clamp(28px, 5vw, 64px)', alignItems: 'center' }}>
+              <div style={{ position: 'relative', aspectRatio: '16/9', borderRadius: '16px', overflow: 'hidden', background: '#25211c', border: '1px solid rgba(236,231,219,0.08)' }}>
+                <img src={scabbard4} alt="The ceremonial scabbard for the Sword of State" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                <span style={{ font: '500 11px/1 var(--font-mono)', letterSpacing: '0.18em', color: '#c98b46', textTransform: 'uppercase' }}>Provenance & Craft</span>
+                <h2 style={{ margin: 0, font: "400 clamp(24px, 3vw, 32px)/1.25 'Libre Caslon Text', Georgia, serif", color: '#ece7db', textWrap: 'pretty' as React.CSSProperties['textWrap'] }}>
+                  Vogie Forge made the scabbard presented to King Charles III.
+                </h2>
+                <p style={{ margin: 0, font: '400 15px/1.6 var(--font-sans)', color: '#a8a294', maxWidth: '44ch' }}>
+                  The forge trusted with the scabbard for the Elizabeth Sword of State in 2023. Read the story of the commission and see the details of the royal presentation piece.
+                </p>
+                <a href="#/the-scabbard" onClick={(e) => { e.preventDefault(); navigate("the-scabbard"); }} style={{ font: '500 14px/1 var(--font-sans)', color: '#c98b46', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px', fontWeight: 'bold' }}>
+                  Read the scabbard story →
+                </a>
+              </div>
             </div>
           </section>
 
@@ -600,7 +665,7 @@ function App() {
                 <img src="https://static.wixstatic.com/media/cd5cc7_67c1cf771af24387bc58606f37af38c6~mv2.jpg" alt="Hand-forged Highland blades laid out in the Vogie Forge workshop" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <p style={{ margin: 0, font: "400 clamp(22px, 2.6vw, 28px)/1.4 'Libre Caslon Text', Georgia, serif", color: '#ece7db', textWrap: 'pretty' as React.CSSProperties['textWrap'] }}>Dane Vogelpohl forges high-carbon steel in Crieff, Perthshire, the way Highland blades were always made: drawn out from thick stock, quenched in oil, fitted by hand. The forge was part of the small team of Scottish makers behind The Elizabeth, the Sword of State presented to King Charles III in 2023.</p>
+                <p style={{ margin: 0, font: "400 clamp(22px, 2.6vw, 28px)/1.4 'Libre Caslon Text', Georgia, serif", color: '#ece7db', textWrap: 'pretty' as React.CSSProperties['textWrap'] }}>Dane Vogelpohl trained in the Highland tradition in Crieff, Scotland, and now forges high-carbon steel in Ohio, USA. Drawing from the lineage of crafting the scabbard for the Elizabeth Sword of State presented to King Charles III in 2023, he brings the ancient craft to America.</p>
                 <a href="#/forge" onClick={(e) => { e.preventDefault(); navigate("forge"); }} style={{ font: '500 14px/1 var(--font-sans)', color: '#c98b46', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px', transition: 'color 150ms' }} onMouseEnter={(e) => e.currentTarget.style.color = '#d89c57'} onMouseLeave={(e) => e.currentTarget.style.color = '#c98b46'}>Read about the forge →</a>
               </div>
             </div>
@@ -831,6 +896,11 @@ function App() {
                 <span style={{ font: '500 11px/1 var(--font-mono)', letterSpacing: '0.18em', color: '#c98b46', textTransform: 'uppercase' }}>{product.tier} · Batch 001</span>
                 <h1 style={{ margin: 0, font: "400 clamp(30px, 4vw, 44px)/1.12 'Libre Caslon Text', Georgia, serif", color: '#ece7db', textWrap: 'pretty' as React.CSSProperties['textWrap'] }}>{product.name}</h1>
                 <p style={{ margin: 0, font: '400 15px/1.65 var(--font-sans)', color: '#a8a294', maxWidth: '52ch', textWrap: 'pretty' as React.CSSProperties['textWrap'] }}>{product.desc}</p>
+                {product.tier.toLowerCase() === 'halo' && (
+                  <p style={{ margin: '8px 0 0', font: '500 13px/1 var(--font-sans)', color: '#c98b46', fontStyle: 'italic' }}>
+                    From the forge that made the King's scabbard.
+                  </p>
+                )}
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '16px' }}>
                   <span style={{ font: '400 24px/1 var(--font-mono)', color: '#ece7db' }}>{product.priceLabel}</span>
                   <span style={{ font: "400 16px/1 'Libre Caslon Text', Georgia, serif", fontStyle: 'italic', color: '#c98b46' }}>{product.editionLabel}</span>
@@ -852,7 +922,7 @@ function App() {
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                       <span style={{ font: "400 19px/1.2 'Libre Caslon Text', Georgia, serif", color: '#1b1916' }}>Certificate of authenticity</span>
-                      <span style={{ font: '500 9px/1 var(--font-mono)', letterSpacing: '0.2em', color: '#8b8478', textTransform: 'uppercase' }}>Vogie Forge · Crieff, Perthshire</span>
+                      <span style={{ font: '500 9px/1 var(--font-mono)', letterSpacing: '0.2em', color: '#8b8478', textTransform: 'uppercase' }}>Vogie Forge · Ohio, USA</span>
                     </div>
                     <span style={{ display: 'inline-flex', flexDirection: 'column', gap: '2px', alignItems: 'center', transform: 'rotate(2deg)', border: '1px solid rgba(160,106,44,0.5)', borderRadius: '3px', padding: '6px 10px' }}>
                       <span style={{ font: '500 8px/1 var(--font-mono)', letterSpacing: '0.16em', color: '#a06a2c', textTransform: 'uppercase' }}>Batch 001</span>
@@ -926,12 +996,23 @@ function App() {
         <main data-screen-label="The forge" style={{ maxWidth: '1200px', margin: '0 auto', padding: 'clamp(40px, 6vw, 72px) clamp(16px, 4vw, 40px)', display: 'flex', flexDirection: 'column', gap: 'clamp(48px, 7vw, 80px)' }}>
           <header style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: 'clamp(28px, 5vw, 64px)', alignItems: 'center' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <h1 style={{ margin: 0, font: "400 clamp(34px, 5vw, 52px)/1.1 'Libre Caslon Text', Georgia, serif", color: '#ece7db', textWrap: 'pretty' as React.CSSProperties['textWrap'] }}>The forge at Crieff</h1>
-              <p style={{ margin: 0, font: '400 16px/1.65 var(--font-sans)', color: '#a8a294', maxWidth: '56ch', textWrap: 'pretty' as React.CSSProperties['textWrap'] }}>Dane Vogelpohl came to bladesmithing through the trades: a machinist's certificate, years at a machine shop, woodcarving, woodturning, even bagpipe-making. It started with an old heat-treating furnace, given to him by the shop's owner, and a sword forged for his son's birthday.</p>
-              <p style={{ margin: 0, font: '400 16px/1.65 var(--font-sans)', color: '#a8a294', maxWidth: '56ch', textWrap: 'pretty' as React.CSSProperties['textWrap'] }}>In 2023 the forge was part of the small team of Scottish makers behind The Elizabeth, the new Sword of State of Scotland, presented to King Charles III on 5 July 2023 and kept with the Honours of Scotland in Edinburgh Castle.</p>
+              <span style={{ font: '500 11px/1 var(--font-mono)', letterSpacing: '0.18em', color: '#c98b46', textTransform: 'uppercase' }}>Our Story</span>
+              <h1 style={{ margin: 0, font: "400 clamp(34px, 5vw, 52px)/1.1 'Libre Caslon Text', Georgia, serif", color: '#ece7db', textWrap: 'pretty' as React.CSSProperties['textWrap'] }}>Highland lineage, forged in America</h1>
+              <p style={{ margin: 0, font: '400 16px/1.65 var(--font-sans)', color: '#a8a294', maxWidth: '56ch', textWrap: 'pretty' as React.CSSProperties['textWrap'] }}>
+                Dane Vogelpohl came to bladesmithing through the trades—a machinist's certificate, years at a machine shop, woodcarving, woodturning, and bagpipe-making in Scotland. In the Perthshire town of Crieff, he trained in the Highland tradition, drawing out high-carbon steel under the forge hammer and crafting working patterns like the sgian dubh, dirk, and claymore.
+              </p>
+              <p style={{ margin: 0, font: '400 16px/1.65 var(--font-sans)', color: '#a8a294', maxWidth: '56ch', textWrap: 'pretty' as React.CSSProperties['textWrap'] }}>
+                The culmination of this Scottish chapter came in 2023, when Vogie Forge was commissioned to craft the oak scabbard presented to King Charles III for the Elizabeth Sword of State. This commission tested the bounds of historical craft and earned the forge a place in modern Scottish heritage.
+              </p>
+              <p style={{ margin: 0, font: '400 16px/1.65 var(--font-sans)', color: '#a8a294', maxWidth: '56ch', textWrap: 'pretty' as React.CSSProperties['textWrap'] }}>
+                Today, Vogie Forge has relocated to Ohio, USA. The move brings the Highland lineage to American soil. Every blade in Batch 001 and forward is hand-forged in the USA, carrying the same training, materials, and rigor that built the King's scabbard.
+              </p>
+              <div style={{ display: 'flex', gap: '16px', alignItems: 'center', marginTop: '8px' }}>
+                <a href="#/the-scabbard" onClick={(e) => { e.preventDefault(); navigate("the-scabbard"); }} style={{ font: '500 14px/1 var(--font-sans)', color: '#c98b46', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px', fontWeight: 'bold' }}>Read the Scabbard Story →</a>
+              </div>
             </div>
             <div style={{ aspectRatio: '4/3', borderRadius: '16px', overflow: 'hidden', background: '#25211c', position: 'relative' }}>
-              <img src="https://static.wixstatic.com/media/cd5cc7_89e156a4623340d59bd3b7263dcb518c-mv2.jpg" alt="The forge fire at Vogie Forge, Crieff" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { (e.target as HTMLImageElement).src = "https://static.wixstatic.com/media/cd5cc7_89e156a4623340d59bd3b7263dcb518c~mv2.jpg"; }} />
+              <img src="https://static.wixstatic.com/media/cd5cc7_89e156a4623340d59bd3b7263dcb518c-mv2.jpg" alt="The forge fire at Vogie Forge" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { (e.target as HTMLImageElement).src = "https://static.wixstatic.com/media/cd5cc7_89e156a4623340d59bd3b7263dcb518c~mv2.jpg"; }} />
             </div>
           </header>
 
@@ -1057,7 +1138,7 @@ function App() {
               <h2 style={{ margin: 0, font: "400 22px/1.2 'Libre Caslon Text', Georgia, serif", color: '#1b1916', textAlign: 'center', borderBottom: '1px solid rgba(27,25,22,0.12)', paddingBottom: '12px' }}>Concerning the Possession of God's Word</h2>
               
               <p style={{ margin: 0, font: '400 15px/1.65 var(--font-sans)', color: '#56524a', textWrap: 'pretty' as React.CSSProperties['textWrap'] }}>
-                An interest in the sword will eventually lead one to recognise that history's best seller, the King James Bible, refers to itself as the 'sword of the Spirit'. Every sword is historically known for offense as well as protection, a symbol of power as well as guardianship.
+                An interest in the sword will eventually lead one to recognise that history's best seller, the King James Bible, refers to itself as the 'sword of the Spirit'. Every sword is historically known for utility, a symbol of power as well as heritage.
               </p>
 
               <p style={{ margin: 0, font: '400 15px/1.65 var(--font-sans)', color: '#56524a', textWrap: 'pretty' as React.CSSProperties['textWrap'] }}>
@@ -1065,18 +1146,68 @@ function App() {
               </p>
 
               <p style={{ margin: 0, font: '400 15px/1.65 var(--font-sans)', color: '#56524a', textWrap: 'pretty' as React.CSSProperties['textWrap'] }}>
-                In John 12 v48, Jesus says, 'He that rejecteth me, and receiveth not my words, hath one that judgeth him: the word that I have spoken, the same shall judge him in the last day.' It is interesting to see from scripture that God's word, or sword, is intended to be man's greatest friend, or greatest foe; the hope of our eternal protection, or the instrument of our eternal destruction.
+                In John 12 v48, Jesus says, 'He that rejecteth me, and receiveth not my words, hath one that judgeth him: the word that I have spoken, the same shall judge him in the last day.' It is interesting to see from scripture that God's word, or sword, is intended to be man's greatest friend, or greatest foe; the hope of our eternal salvation, or the instrument of our eternal destruction.
               </p>
 
               <p style={{ margin: 0, font: '400 15px/1.65 var(--font-sans)', color: '#56524a', textWrap: 'pretty' as React.CSSProperties['textWrap'], borderTop: '1px solid rgba(27,25,22,0.1)', paddingTop: '16px' }}>
                 Considering all this, what sword could be of greater importance, or worth possessing? For this reason, Vogie Forge offers free King James Bibles upon request, while supplies last. If you would like to request one, please email us directly.
               </p>
-
+              
               <div style={{ alignSelf: 'center', marginTop: '16px' }}>
                 <a href="mailto:vogieforge@gmail.com?subject=Free Bible Request" style={{ font: '500 15px/1 var(--font-sans)', color: '#ece7db', background: '#1b1916', textDecoration: 'none', padding: '14px 24px', borderRadius: '999px', display: 'inline-block', transition: 'background 150ms cubic-bezier(0.16,1,0.3,1)', fontWeight: 'bold' }} className="btn-dark-hover">Request a Free Bible via Email</a>
               </div>
             </div>
           </div>
+        </main>
+      )}
+
+      {/* THE SCABBARD */}
+      {isScabbard && (
+        <main data-screen-label="The Scabbard" style={{ maxWidth: '900px', margin: '0 auto', padding: 'clamp(40px, 6vw, 72px) clamp(16px, 4vw, 40px)', display: 'flex', flexDirection: 'column', gap: '32px' }}>
+          <header style={{ display: 'flex', flexDirection: 'column', gap: '12px', borderBottom: '1px solid rgba(236,231,219,0.1)', paddingBottom: '24px' }}>
+            <span style={{ font: '500 11px/1 var(--font-mono)', letterSpacing: '0.18em', color: '#c98b46', textTransform: 'uppercase' }}>Provenance</span>
+            <h1 style={{ margin: 0, font: "400 clamp(34px, 5vw, 52px)/1.1 'Libre Caslon Text', Georgia, serif", color: '#ece7db' }}>The King's Scabbard</h1>
+            <p style={{ margin: 0, font: '400 16px/1.6 var(--font-sans)', color: '#a8a294', maxWidth: '64ch' }}>
+              The story of the commission for the Elizabeth Sword of State, presented to King Charles III in 2023.
+            </p>
+          </header>
+
+          <article style={{ display: 'flex', flexDirection: 'column', gap: '24px', font: '400 16px/1.65 var(--font-sans)', color: '#a8a294' }}>
+            <p>
+              In 2023, Scotland commissioned a new Sword of State to replace the historical Honours of Scotland, which could no longer be used due to their fragility. The new sword was named the Elizabeth Sword.
+            </p>
+            <p>
+              Vogie Forge was trusted with crafting the wooden scabbard for this ceremonial sword. Blacksmith and woodworker Dane Vogelpohl crafted the scabbard from local Perthshire oak, sourcing, fitting, and carving the wood by hand. He also executed the detailed gold-leaf inscriptions and finishing work on the blade itself.
+            </p>
+            <p>
+              The completed sword was presented to King Charles III during a National Service of Thanksgiving at St Giles' Cathedral in Edinburgh on 5 July 2023. It now resides with the Honours of Scotland in Edinburgh Castle.
+            </p>
+            <p>
+              This work stands as the forge's single most important proof of craft. The same techniques, precision, and dedication to historical tradition used for the royal presentation sword are applied to every numbered batch piece we forge today.
+            </p>
+          </article>
+
+          <section style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '24px' }}>
+            <h2 style={{ margin: 0, font: "400 24px/1.2 'Libre Caslon Text', Georgia, serif", color: '#ece7db' }}>Gallery</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+              <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(236,231,219,0.1)', background: '#1b1916' }}>
+                <img src={scabbard1} alt="The King's scabbard being carved" style={{ width: '100%', height: 'auto', display: 'block' }} />
+              </div>
+              <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(236,231,219,0.1)', background: '#1b1916' }}>
+                <img src={scabbard2} alt="Intricate gilding and etching details on the Elizabeth Sword" style={{ width: '100%', height: 'auto', display: 'block' }} />
+              </div>
+              <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(236,231,219,0.1)', background: '#1b1916' }}>
+                <img src={scabbard3} alt="Scabbard fitting and finishing" style={{ width: '100%', height: 'auto', display: 'block' }} />
+              </div>
+              <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(236,231,219,0.1)', background: '#1b1916' }}>
+                <img src={scabbard4} alt="The final scabbard for the Sword of State" style={{ width: '100%', height: 'auto', display: 'block' }} />
+              </div>
+            </div>
+          </section>
+
+          <footer style={{ marginTop: '32px', borderTop: '1px solid rgba(236,231,219,0.1)', paddingTop: '24px', display: 'flex', justifyContent: 'center' }}>
+            <button onClick={() => navigate("drops")} style={{ font: '500 15px/1 var(--font-sans)', color: '#1b1916', background: '#c98b46', border: 'none', padding: '14px 28px', borderRadius: '999px', fontWeight: 'bold', cursor: 'pointer' }} className="btn-gold">View the current drop</button>
+          </footer>
         </main>
       )}
 
@@ -1086,13 +1217,14 @@ function App() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
               <span style={{ font: "700 20px/1 'Libre Caslon Text', Georgia, serif", color: '#ece7db' }}>Vogie Forge</span>
-              <span style={{ font: '500 9px/1.6 var(--font-mono)', letterSpacing: '0.22em', color: '#a8a294', textTransform: 'uppercase' }}>Crieff · Perthshire · Scotland</span>
+              <span style={{ font: '500 9px/1.6 var(--font-mono)', letterSpacing: '0.22em', color: '#a8a294', textTransform: 'uppercase' }}>Ohio · USA (Scottish Roots)</span>
             </div>
             <nav aria-label="Footer" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: '6px 24px', maxWidth: '320px' }}>
               <a href="#/drops" onClick={(e) => { e.preventDefault(); navigate("drops"); }} className="footer-link-item">Drops</a>
               <a href="#/collection" onClick={(e) => { e.preventDefault(); navigate("collection"); }} className="footer-link-item">Collection</a>
               <a href="#/culinary" onClick={(e) => { e.preventDefault(); navigate("culinary"); }} className="footer-link-item">Culinary</a>
               <a href="#/forge" onClick={(e) => { e.preventDefault(); navigate("forge"); }} className="footer-link-item">The forge</a>
+              <a href="#/the-scabbard" onClick={(e) => { e.preventDefault(); navigate("the-scabbard"); }} className="footer-link-item">The Scabbard</a>
               <a href="#/care" onClick={(e) => { e.preventDefault(); navigate("care"); }} className="footer-link-item">Care guide</a>
               <a href="#/faq" onClick={(e) => { e.preventDefault(); navigate("faq"); }} className="footer-link-item">FAQ</a>
               <a href="#/custom" onClick={(e) => { e.preventDefault(); navigate("custom"); }} className="footer-link-item">Commissions</a>
@@ -1100,7 +1232,7 @@ function App() {
               <a href="#/scripture" onClick={(e) => { e.preventDefault(); navigate("scripture"); }} className="footer-link-item">Scripture Oath</a>
             </nav>
             <p style={{ margin: 0, font: '400 12px/1.7 var(--font-sans)', color: '#6f695e', maxWidth: '44ch', textWrap: 'pretty' as React.CSSProperties['textWrap'] }}>Blades are sold to buyers aged 18 and over. Adult signature with age verification is required on delivery. Shipment of blades is restricted in some regions; confirm your local rules before ordering.</p>
-            <span style={{ font: '500 11px/1 var(--font-mono)', color: '#6f695e' }}>© 2026 Vogie Forge · Hand-forged in Scotland</span>
+            <span style={{ font: '500 11px/1 var(--font-mono)', color: '#6f695e' }}>© 2026 Vogie Forge · Forged in Ohio, USA</span>
           </div>
           <VipCapture headline="The next batch is announced here first." />
         </div>
