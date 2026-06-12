@@ -82,6 +82,7 @@
 /* Ancient Hero Section */
 .hero-section {
   position: relative;
+  z-index: 1;
   height: 580px;
   display: flex;
   align-items: center;
