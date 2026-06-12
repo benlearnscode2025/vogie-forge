@@ -4,6 +4,7 @@ import scabbard1 from './assets/scabbard_1.jpg';
 import scabbard2 from './assets/scabbard_2.jpg';
 import scabbard3 from './assets/scabbard_3.jpg';
 import scabbard4 from './assets/scabbard_4.jpg';
+import scabbardVideo from './assets/scabbard_video.mp4';
 
 
 // ---------------------------------------------------------
@@ -1188,7 +1189,16 @@ function App() {
             </p>
           </article>
 
+          {/* Video Player */}
+          <section style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '16px' }}>
+            <h2 style={{ margin: 0, font: "400 24px/1.2 'Libre Caslon Text', Georgia, serif", color: '#ece7db' }}>Crafting the Presentation Piece</h2>
+            <div style={{ position: 'relative', width: '100%', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(236,231,219,0.1)', background: '#1b1916', aspectRatio: '16/9' }}>
+              <video src={scabbardVideo} controls poster={scabbard1} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
+          </section>
+
           <section style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '24px' }}>
+
             <h2 style={{ margin: 0, font: "400 24px/1.2 'Libre Caslon Text', Georgia, serif", color: '#ece7db' }}>Gallery</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
               <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(236,231,219,0.1)', background: '#1b1916' }}>
