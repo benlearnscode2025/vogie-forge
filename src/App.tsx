@@ -371,7 +371,6 @@ function VipCapture() {
               Access the Next Drop
             </button>
           </div>
-          <span className="vip-provider-label">Managed via {CONFIG.LIST_PROVIDER}</span>
         </form>
       )}
     </div>
